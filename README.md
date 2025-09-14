@@ -1,14 +1,15 @@
 # Community-Hub
-Community Hub is an open-source, user-owned social platform built for grassroots movements. It’s a place where neighbours, organisers and collectives create autonomous group spaces, organise real-world action, share resources, and pool funds — all without ads, surveillance, or opaque algorithms. 
+Community Hub is an open-source, user-owned social platform built for grassroots movements. It’s a place where neighbours, organisers and collectives create autonomous group spaces, organise real-world action, share resources, and pool funds — all without ads, surveillance, or opaque algorithms.
+
 # The problems we solve
 
 ## 1. Big platforms work against communities
 Mainstream social media harvests attention and data, fuels division, and optimises for engagement over outcomes.
 Our response:
-##### •	User ownership — people own their data and social graph, with the option to generate community funding from data sales.
-##### •	Ad-free & algorithm-free — chronological or user-controlled feeds only.
-##### •	Community governance — groups set their own rules; platform governance is open and auditable.
-##### •	Privacy & safety — protective defaults for organisers and vulnerable members.
+#### •	User ownership — people own their data and social graph, with the option to generate community funding from data sales.
+#### •	Ad-free & algorithm-free — chronological or user-controlled feeds only.
+#### •	Community governance — groups set their own rules; platform governance is open and auditable.
+#### •	Privacy & safety — protective defaults for organisers and vulnerable members.
 
 ## 2. Grassroots organising is fragmented and vulnerable
 Online Movements depend on commercial platforms that can de-platform them overnight, restrict their reach, or exploit their data. The result: fragile networks, constant churn between apps, and no long-term security for the communities themselves.
@@ -23,4 +24,6 @@ Our response:
 #### •	Every user is a shareholder — ownership of Community Hub is distributed across the people who use it, not outside investors.
 #### •	Community-backed value — the platform’s worth is built from two things: the shared values of the community, and the data users consciously choose to make public.
 #### •	Fair returns — revenue streams (ads, ethical data licensing, or other services) include a community VAT system, where a small portion cycles back to all active users, ensuring the collective benefits from the collective’s activity.
+
+### Tech stack
 
