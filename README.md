@@ -5,10 +5,10 @@ Community Hub is an open-source, user-owned social platform built for grassroots
 ## 1. Big platforms work against communities
 Mainstream social media harvests attention and data, fuels division, and optimises for engagement over outcomes.
 Our response:
-#### •	User ownership — people own their data and social graph, with the option to generate community funding from data sales.
-#### •	Ad-free & algorithm-free — chronological or user-controlled feeds only.
-#### •	Community governance — groups set their own rules; platform governance is open and auditable.
-#### •	Privacy & safety — protective defaults for organisers and vulnerable members.
+##### •	User ownership — people own their data and social graph, with the option to generate community funding from data sales.
+##### •	Ad-free & algorithm-free — chronological or user-controlled feeds only.
+##### •	Community governance — groups set their own rules; platform governance is open and auditable.
+##### •	Privacy & safety — protective defaults for organisers and vulnerable members.
 
 ## 2. Grassroots organising is fragmented and vulnerable
 Online Movements depend on commercial platforms that can de-platform them overnight, restrict their reach, or exploit their data. The result: fragile networks, constant churn between apps, and no long-term security for the communities themselves.
