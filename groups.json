@@ -1,0 +1,204 @@
+[
+  {
+    "name": "yanks in London",
+    "slug": "yanks-in-london",
+    "description": "hii",
+    "imageUrl": "",
+    "creator": "alex@lane.com",
+    "members": [
+      "alex@lane.com",
+      "Anna@poland.com"
+    ],
+    "joinRequests": [],
+    "posts": [
+      {
+        "author": "Anna@poland.com",
+        "content": "not from america but hi!",
+        "createdAt": "2025-08-01T16:35:04.940Z"
+      },
+      {
+        "author": "alex@lane.com",
+        "content": "OMG hi guyss",
+        "createdAt": "2025-08-01T16:02:59.172Z"
+      }
+    ],
+    "resources": [
+      {
+        "id": "res-mgqwjtvv-rt0i9m",
+        "community": "yanks-in-london",
+        "category": "offering",
+        "title": "can work in garden for food",
+        "resourceType": "labour",
+        "description": "want 2 meals a day for 8 hours work ",
+        "tradeType": "trade",
+        "tradeDescription": "labour for food",
+        "location": "sax",
+        "author": "Anna@poland.com",
+        "authorName": "Anna",
+        "createdAt": "2025-10-14T18:35:20.971Z",
+        "complete": false,
+        "replies": []
+      }
+    ]
+  },
+  {
+    "name": "Anna Club",
+    "slug": "anna-club",
+    "description": "club for Annas",
+    "imageUrl": "",
+    "creator": "Anna@poland.com",
+    "members": [
+      "Anna@poland.com",
+      "alex@lane.com",
+      "tam@orford.com",
+      "merl@merl.com"
+    ],
+    "joinRequests": [],
+    "posts": [
+      {
+        "author": "Anna@poland.com",
+        "content": "wassup guys first post innit",
+        "createdAt": "2025-08-01T16:04:42.231Z"
+      }
+    ],
+    "resources": [
+      {
+        "id": "res-mgqwgwvu-5xa8bo",
+        "community": "anna-club",
+        "category": "offering",
+        "title": "gos",
+        "resourceType": "tools",
+        "description": "booo",
+        "tradeType": "trade",
+        "tradeDescription": "give me 10 apples in return ",
+        "location": "hackeers",
+        "author": "Anna@poland.com",
+        "authorName": "Anna",
+        "createdAt": "2025-10-14T18:33:04.890Z",
+        "complete": false,
+        "replies": [
+          {
+            "id": "rep-mgqwho0e-nlee8r",
+            "author": "Anna@poland.com",
+            "authorName": "Anna",
+            "content": "yeah ill do the trade can u meet today?",
+            "swapOffer": false,
+            "createdAt": "2025-10-14T18:33:40.046Z"
+          }
+        ]
+      },
+      {
+        "id": "res-mgqwf65v-t7ua0r",
+        "community": "anna-club",
+        "category": "wanted",
+        "title": "tops",
+        "resourceType": "tools",
+        "description": "toptop",
+        "tradeType": "free",
+        "tradeDescription": "",
+        "location": "daggers",
+        "author": "Anna@poland.com",
+        "authorName": "Anna",
+        "createdAt": "2025-10-14T18:31:43.603Z",
+        "complete": true,
+        "replies": []
+      }
+    ]
+  },
+  {
+    "name": "Anna Club 2.0",
+    "slug": "anna-club-20",
+    "description": "needed a new one...",
+    "imageUrl": "",
+    "creator": "Anna@poland.com",
+    "members": [
+      "Anna@poland.com",
+      "alex@lane.com"
+    ],
+    "joinRequests": [],
+    "posts": [
+      {
+        "author": "Anna@poland.com",
+        "content": "n,n",
+        "createdAt": "2025-10-14T19:39:25.073Z"
+      },
+      {
+        "author": "Anna@poland.com",
+        "content": "first posttt",
+        "createdAt": "2025-08-06T13:19:04.704Z"
+      }
+    ]
+  },
+  {
+    "name": "tammy_polyclub",
+    "slug": "tammy_polyclub",
+    "description": "club for all my poly babes",
+    "imageUrl": "",
+    "creator": "tam@orford.com",
+    "members": [
+      "tam@orford.com"
+    ],
+    "joinRequests": [
+      "Anna@poland.com"
+    ],
+    "posts": [
+      {
+        "author": "tam@orford.com",
+        "content": "hi guys first post yooo",
+        "createdAt": "2025-09-01T11:41:19.502Z"
+      }
+    ]
+  },
+  {
+    "name": "bo club",
+    "slug": "bo-club",
+    "description": "new oneee",
+    "imageUrl": "",
+    "creator": "Anna@poland.com",
+    "members": [
+      "Anna@poland.com"
+    ],
+    "joinRequests": [],
+    "posts": [
+      {
+        "author": "Anna@poland.com",
+        "content": "hey bo club",
+        "createdAt": "2026-01-28T12:17:00.023Z"
+      }
+    ],
+    "resources": []
+  },
+  {
+    "name": "frr",
+    "slug": "frr",
+    "description": "rr",
+    "imageUrl": "",
+    "creator": "Anna@poland.com",
+    "members": [
+      "Anna@poland.com"
+    ],
+    "joinRequests": [],
+    "posts": [
+      {
+        "author": "Anna@poland.com",
+        "content": "hey",
+        "createdAt": "2026-09-17T09:36:23.927Z"
+      }
+    ],
+    "resources": []
+  },
+  {
+    "name": "merlos",
+    "slug": "merlos",
+    "description": "mel",
+    "imageUrl": "",
+    "creator": "merl@merl.com",
+    "members": [
+      "merl@merl.com"
+    ],
+    "joinRequests": [
+      "Anna@poland.com"
+    ],
+    "posts": []
+  }
+]

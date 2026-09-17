@@ -1,0 +1,93 @@
+[
+  {
+    "id": "1762451851170",
+    "groupSlug": "yanks-in-london",
+    "title": "sadasdasd",
+    "address": "asdasdasd",
+    "type": "tools",
+    "description": "asdasdasd",
+    "kind": "offer",
+    "fulfil": "free",
+    "tradeDesc": "",
+    "responses": [],
+    "closed": false,
+    "createdAt": "2025-11-06T17:57:31.170Z",
+    "createdBy": "Anna@poland.com"
+  },
+  {
+    "id": "1762450375289",
+    "groupSlug": "yanks-in-london",
+    "title": "vbcb",
+    "type": "tools",
+    "description": "cvbvcbvcb",
+    "kind": "offer",
+    "fulfil": "free",
+    "tradeDesc": "",
+    "responses": [],
+    "closed": true,
+    "createdAt": "2025-11-06T17:32:55.289Z",
+    "createdBy": "Anna@poland.com"
+  },
+  {
+    "id": "1762450041679",
+    "groupSlug": "yanks-in-london",
+    "title": "bailey",
+    "type": "food",
+    "description": "excess baileyss",
+    "kind": "offer",
+    "fulfil": "free",
+    "tradeDesc": "",
+    "responses": [],
+    "closed": true,
+    "createdAt": "2025-11-06T17:27:21.679Z",
+    "createdBy": "Anna@poland.com"
+  },
+  {
+    "id": "1762448164306",
+    "groupSlug": "yanks-in-london",
+    "title": "power drill",
+    "type": "technology",
+    "description": "we have a couple of power drills that we no longer use and want to trade for new wheelbarrow or potentially other gardening equipment",
+    "kind": "offer",
+    "fulfil": "trade",
+    "tradeDesc": "wheelbarrow or pitch fork",
+    "responses": [],
+    "closed": true,
+    "createdAt": "2025-11-06T16:56:04.305Z",
+    "createdBy": "Anna@poland.com"
+  },
+  {
+    "id": "1761065013149",
+    "groupSlug": "merlos",
+    "title": "hay",
+    "type": "food",
+    "description": "lots of hay for free",
+    "kind": "offer",
+    "fulfil": "free",
+    "tradeDesc": "",
+    "responses": [],
+    "closed": false,
+    "createdAt": "2025-10-21T16:43:33.149Z",
+    "createdBy": "merl@merl.com"
+  },
+  {
+    "id": "1761063767418",
+    "groupSlug": "yanks-in-london",
+    "title": "Cotton sacks",
+    "type": "tools",
+    "description": "5 cotton sacks going for free to collect!",
+    "kind": "request",
+    "fulfil": "free",
+    "tradeDesc": "",
+    "responses": [
+      {
+        "author": "Anna@poland.com",
+        "content": "yes these would be really useful to me - I can collect next week",
+        "createdAt": "2025-10-21T16:23:10.174Z"
+      }
+    ],
+    "closed": false,
+    "createdAt": "2025-10-21T16:22:47.417Z",
+    "createdBy": "Anna@poland.com"
+  }
+]

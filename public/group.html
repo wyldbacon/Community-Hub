@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Community Hub - Group</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="home-page profile-page">
+  <div class="layout">
+    <!-- ----- Sidebar (same pattern as home.html) ----- -->
+    <aside class="sidebar"> 
+      <div class="logo">Community Hub</div>
+
+      <!-- Registry button (hidden until group data loads) -->
+      <button id="open-registry-btn" class="add-resource-btn" style="margin-top:15px; width:100%; display:none;">
+        Open Registry
+      </button>
+
+      <!-- show join requests (optional) -->
+      <button id="show-join-requests" style="margin-top:8px; width:100%;">Show Join Requests</button>
+    </aside>
+
+    <!-- ----- Main content ----- -->
+    <main class="main-content profile-container">
+      <header class="header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <div style="display:flex;gap:12px;align-items:center;flex:1;min-width:200px;">
+          <img id="group-image" src="/images/group.png" alt="Group" class="profile-pic" />
+          <div>
+            <h1 id="group-name">Loading …</h1>
+            <p id="group-description" style="margin:0"></p>
+            <p style="margin:0"><strong>Created by:</strong> <span id="group-creator"></span></p>
+          </div>
+        </div>
+        
+        <!-- Navigation Buttons (Matches Registry Structure) -->
+        <div class="nav-buttons">
+          <button onclick="goHome()">🏠 Home</button>
+        </div>
+      </header>
+
+      <section id="request-section" class="group-requests" style="display:none;margin-top:12px;"></section>
+
+      <section id="post-section" class="group-posts" style="display:none;margin-top:12px;">
+        <h2>Posts</h2>
+        <form id="post-form">
+          <textarea id="post-content" placeholder="Write your post…" rows="4" required style="width:100%;"></textarea>
+          <button type="submit" style="margin-top:6px;background:#66bb6a;color:white;border:0;padding:8px;border-radius:6px">Post</button>
+        </form>
+        <div id="post-list" style="margin-top:12px"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function goHome() {
+      window.location.href = '/home.html';
+    }
+  </script>
+  <script src="/group.js"></script>
+</body>
+</html>

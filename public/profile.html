@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community Hub - Profile</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="profile-page">
+  <header class="header">
+    <div class="logo">Community Hub</div>
+    <nav class="nav">
+      <!-- <<< absolute path here -->
+      <a href="/home.html" class="home-btn">Home</a>
+    </nav>
+  </header>
+
+  <main class="profile-container">
+    <section class="profile-info">
+      <img src="/images/user.png" alt="User Profile Picture" class="profile-pic" />
+      <h1 id="profile-name">Welcome, …</h1>
+    </section>
+
+    <section class="profile-communities">
+      <h2>My Communities</h2>
+      <h3>Created Groups</h3>
+      <ul id="created-groups"></ul>
+
+      <h3>Joined Groups</h3>
+      <ul id="joined-groups"></ul>
+    </section>
+
+    <section class="join-requests">
+      <h2>Pending Join Requests</h2>
+      <ul id="pending-requests"></ul>
+    </section>
+
+    <section class="profile-posts">
+      <h2>My Posts</h2>
+      <div id="posts-container"></div>
+    </section>
+  </main>
+
+  <script src="/profile.js"></script>
+</body>
+</html>

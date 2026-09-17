@@ -1,0 +1,42 @@
+[
+  {
+    "name": "sweet_virginia",
+    "email": "alex@lane.com",
+    "password": "alex",
+    "groups": [
+      "yanks-in-london",
+      "anna-club",
+      "anna-club-20"
+    ]
+  },
+  {
+    "name": "Anna",
+    "email": "Anna@poland.com",
+    "password": "anna",
+    "groups": [
+      "anna-club",
+      "yanks-in-london",
+      "anna-club-20",
+      "bo-club",
+      "frr"
+    ]
+  },
+  {
+    "name": "tamarisk",
+    "email": "tam@orford.com",
+    "password": "tammy",
+    "groups": [
+      "tammy_polyclub",
+      "anna-club"
+    ]
+  },
+  {
+    "name": "merl",
+    "email": "merl@merl.com",
+    "password": "merl",
+    "groups": [
+      "merlos",
+      "anna-club"
+    ]
+  }
+]

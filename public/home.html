@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Community Hub - Home</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .dropdown-content { max-height: 300px; overflow-y: auto; }
+    #new-community-form input, #new-community-form textarea { width: 90%; margin-bottom: 8px; }
+    .search-container { margin: 10px 0; position: relative; }
+    .search-results { background: white; border: 1px solid #ccc; max-height: 200px; overflow-y: auto; position: absolute; width: 100%; z-index: 10; }
+    .search-results div { padding: 8px; cursor: pointer; }
+    .search-results div:hover { background-color: #f0f0f0; }
+    .group-link { display: block; padding: 8px; margin: 5px 0; background-color: #eee; text-decoration: none; color: #333; border-radius: 4px; transition: background-color .2s ease; }
+    .group-link:hover { background-color: #ccc; }
+    .post { background: #fff; padding: 10px; border: 1px solid #ddd; margin-bottom: 10px; border-radius: 5px; }
+    .post small { color: #666; }
+    .join-requests { background: #fafafa; border: 1px solid #ddd; padding: 8px; margin-top: 20px; }
+    .join-request { padding: 8px; margin-bottom: 6px; background-color: #fff; border: 1px solid #ccc; }
+    .logout-button { margin-left: 10px; }
+  </style>
+</head>
+<body class="home-page">
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="logo">Community Hub</div>
+
+      <!-- Group Search -->
+      <div class="search-container">
+        <input type="text" id="group-search" placeholder="Search for groups..." autocomplete="off" />
+        <div class="search-results" id="search-results"></div>
+      </div>
+
+      <div class="dropdown">
+        <button class="sidebar-button dropbtn" style="margin-top:10px; width:100%;">Communities</button>
+        <div class="dropdown-content" id="communities-list">
+          <button id="new-community-btn" style="width:100%; margin-top:10px;">New Community +</button>
+          <form id="new-community-form" style="display:none; margin-top:8px;">
+            <label>Name:<br /><input type="text" name="groupName" required /></label><br />
+            <label>Description:<br /><textarea name="description" required></textarea></label><br />
+            <label>Image URL:<br /><input type="text" name="imageUrl" placeholder="Optional URL" /></label><br />
+            <button type="submit">Create</button>
+            <button type="button" id="cancel-community-btn">Cancel</button>
+          </form>
+        </div>
+      </div>
+
+      <button id="show-join-requests" class="sidebar-button" style="margin-top:5px; width:100%;">Join Requests</button>
+    </aside>
+
+    <main class="main-content">
+      <div class="header">
+        <div class="nav">
+          <a href="profile.html"><button class="logout-button profile-btn">Profile</button></a>
+          <button id="logout-btn" class="logout-button">Logout</button>
+        </div>
+      </div>
+
+      <!-- Inline global registry (hidden until user expands) -->
+      <section id="global-resource-registry" style="display:none;margin-bottom:18px">
+        <h2 style="color:#2a7a4d;margin:8px 0">Global Resource Registry</h2>
+
+        <div class="filter-bar" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+          <select id="filter-type" style="padding:6px;border-radius:6px">
+            <option value="">All</option>
+            <option value="offer">Offering</option>
+            <option value="request">Request</option>
+          </select>
+
+          <select id="filter-category" style="padding:6px;border-radius:6px">
+            <option value="">All Categories</option>
+            <option value="tools">Tools</option>
+            <option value="technology">Technology</option>
+            <option value="labour">Labour</option>
+            <option value="food">Food</option>
+            <option value="shelter">Shelter</option>
+            <option value="land">Land</option>
+          </select>
+
+          <input id="filter-location" placeholder="Filter by group/location" style="padding:6px;border-radius:6px;min-width:160px" />
+
+          <button id="clear-filters" style="padding:6px 10px;border-radius:6px">Clear</button>
+        </div>
+
+        <div id="global-resources-list" class="resources-list"></div>
+      </section>
+
+
+      <div class="feed" id="feed">
+        <!-- Posts will go here -->
+      </div>
+
+
+      <div id="join-requests-container" class="join-requests" style="display:none;">
+        <h3>Join Requests</h3>
+        <div id="join-requests-list"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Include our external JS -->
+  <script src="home.js"></script>
+</body>
+</html>
