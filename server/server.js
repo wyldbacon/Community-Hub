@@ -5,10 +5,10 @@ const session    = require('express-session');
 const path       = require('path');
 const bodyParser = require('body-parser');
 const mongoose   = require('mongoose');
+const cors       = require('cors');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
-const cors = require('cors');
 
 // ─── MONGOOSE CONNECTION ───────────────────────────────────────────────────────
 const MONGO_URI = 'mongodb+srv://merlinbacon101_db_user:TupWdKCxo369LDzT@cluster0.4hgjefk.mongodb.net/?appName=Cluster0';
@@ -80,7 +80,13 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors({ origin: '*', credentials: true }));
+
+// Fixed CORS configuration for cross-origin requests using credentials
+app.use(cors({ 
+  origin: true, 
+  credentials: true 
+}));
+
 app.use(express.static(path.join(__dirname, '../public')));
 
 // ─── AUTH ROUTES ───────────────────────────────────────────────────────────────
@@ -98,7 +104,7 @@ app.post('/signup', async (req, res) => {
     await newUser.save();
 
     req.session.user = { name, email };
-    res.redirect('/home.html');
+    res.status(201).json({ status: 'ok', message: 'User created' });
   } catch (err) {
     res.status(500).send('Error creating user');
   }
@@ -114,7 +120,7 @@ app.post('/login', async (req, res) => {
     }
 
     req.session.user = { name: user.name, email: user.email };
-    res.redirect('/home.html');
+    res.status(200).json({ status: 'ok', message: 'Logged in successfully' });
   } catch (err) {
     res.status(500).send('Error logging in');
   }

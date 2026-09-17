@@ -1,4 +1,6 @@
-// home.js
+// home.js - updated with live API endpoints for Capacitor/mobile compatibility
+const API_BASE = 'https://community-hub-j9na.onrender.com';
+
 window.addEventListener('DOMContentLoaded', () => {
   const newBtn    = document.getElementById('new-community-btn');
   const form      = document.getElementById('new-community-form');
@@ -50,7 +52,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   async function loadGlobalResources() {
     try {
-      const res = await fetch('/api/resources', { credentials: 'include' });
+      const res = await fetch(`${API_BASE}/api/resources`, { credentials: 'include' });
       if (!res.ok) throw new Error('Failed to load resources');
       allResources = await res.json();
       renderGlobalResources(allResources);
@@ -176,7 +178,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!data.groupName || !data.description) { alert('Please fill all required fields'); return; }
 
     try {
-      const res = await fetch('/create-group', {
+      const res = await fetch(`${API_BASE}/create-group`, {
         method:'POST', headers:{'Content-Type':'application/json'}, credentials:'include', body:JSON.stringify(data)
       });
       if (res.ok) {
@@ -194,7 +196,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // --- Load user data ---
   async function loadUserData() {
-    const meRes = await fetch('/me', { credentials: 'include' });
+    const meRes = await fetch(`${API_BASE}/me`, { credentials: 'include' });
     if (!meRes.ok) { console.error('/me failed'); return; }
     const me = await meRes.json();
 
@@ -202,7 +204,7 @@ window.addEventListener('DOMContentLoaded', () => {
     list.querySelectorAll('a.group-link').forEach(el=>el.remove());
     list.querySelectorAll('.no-communities').forEach(el=>el.remove());
     if (me.groups?.length) {
-      const allGroupsRes = await fetch('/api/groups', { credentials:'include' });
+      const allGroupsRes = await fetch(`${API_BASE}/api/groups`, { credentials:'include' });
       const allGroups = allGroupsRes.ok ? await allGroupsRes.json() : [];
       me.groups.forEach(slug => {
         const grp = allGroups.find(g=>g.slug===slug);
@@ -250,7 +252,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // --- Join requests ---
   jrBtn.onclick = async () => {
-    const meRes = await fetch('/me',{credentials:'include'}); if(!meRes.ok) return;
+    const meRes = await fetch(`${API_BASE}/me`,{credentials:'include'}); if(!meRes.ok) return;
     const me = await meRes.json();
     const reqs = me.joinRequests||[];
     jrList.innerHTML=''; jrCont.style.display='block';
@@ -264,7 +266,7 @@ window.addEventListener('DOMContentLoaded', () => {
     jrList.querySelectorAll('.jr-approve').forEach(btn=>{
       btn.onclick = async ()=>{
         try {
-          const res = await fetch(`/api/group/${btn.dataset.group}/approve`, {
+          const res = await fetch(`${API_BASE}/api/group/${btn.dataset.group}/approve`, {
             method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body:JSON.stringify({emailToApprove:btn.dataset.user})
           });
           if(res.ok) btn.parentElement.remove(); else { const err=await res.text(); alert('Approval failed: '+err); }
@@ -275,14 +277,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // --- Logout ---
   if (logoutBtn) logoutBtn.addEventListener('click', async ()=>{
-    const r = await fetch('/logout',{method:'POST',credentials:'include'}); if(r.ok) window.location.href='/login.html'; else alert('Logout failed');
+    const r = await fetch(`${API_BASE}/logout`,{method:'POST',credentials:'include'}); if(r.ok) window.location.href='/login.html'; else alert('Logout failed');
   });
 
   // --- Search ---
   searchIn.oninput = async ()=>{
     const q = searchIn.value.trim().toLowerCase();
     if(!q){ results.innerHTML=''; return; }
-    const all = await fetch('/api/groups',{credentials:'include'}).then(r=>r.json());
+    const all = await fetch(`${API_BASE}/api/groups`,{credentials:'include'}).then(r=>r.json());
     results.innerHTML='';
     all.filter(g=>g.name.toLowerCase().includes(q)).forEach(g=>{
       const d=document.createElement('div'); d.textContent=g.name; d.onclick=()=>window.location.href=`/group/${g.slug}.html`; results.appendChild(d);

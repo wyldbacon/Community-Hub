@@ -7,6 +7,9 @@
        POST /api/group/:slug/resources/:id/close
 */
 (function(){
+  // Live API Base Server URL
+  const SERVER_HOST = 'https://community-hub-j9na.onrender.com';
+
   // ---------- helpers ----------
   const params = new URLSearchParams(location.search);
   const groupName = params.get('group') || 'My Group';
@@ -19,13 +22,14 @@
   }
 
   const slug = slugify(groupName);
-  const API_BASE = `/api/group/${encodeURIComponent(slug)}`;
+  const API_BASE = `${SERVER_HOST}/api/group/${encodeURIComponent(slug)}`;
   const KEY = 'registry_' + slug; // localStorage fallback key
 
   const $ = sel => document.getElementById(sel);
   const el = (tag, attrs = {}) => { const d = document.createElement(tag); Object.assign(d, attrs); return d; };
 
-  document.getElementById('page-heading').textContent = groupName + ' Registry';
+  const headingEl = document.getElementById('page-heading');
+  if (headingEl) headingEl.textContent = groupName + ' Registry';
 
   const addMenuBtns = document.querySelectorAll('.add-menu button');
   const formArea = document.getElementById('formArea');
@@ -122,6 +126,7 @@
 
   // ---------- rendering ----------
   function render(){
+    if (!registryList) return;
     registryList.innerHTML = '';
     if(!resources || resources.length === 0){
       const p = el('div'); p.className = 'muted'; p.textContent = 'No resources yet — use "Add resource" to create one.';
@@ -136,7 +141,7 @@
       const meta = el('div'); meta.className='resource-meta';
       const title = el('div'); title.className='resource-title'; title.title = r.title; title.textContent = r.title;
       const type = el('div'); type.className='resource-type'; type.textContent = r.type;
-      const address = el('div'); address.className='resource-address'; address.textContent = r.address;
+      const address = el('div'); address.className='resource-address'; address.title = r.address; address.textContent = r.address;
       const tag = el('div'); tag.className='resource-tag'; tag.textContent = (r.kind||'offer') + (r.fulfil ? ' • ' + r.fulfil : '');
 
       meta.appendChild(title); meta.appendChild(address); meta.appendChild(type); meta.appendChild(tag);
@@ -144,7 +149,6 @@
       const actions = el('div'); actions.className='resource-actions';
       const arrow = el('button'); arrow.className='arrow-btn'; arrow.innerHTML = r.open ? '▾' : '▸';
       arrow.addEventListener('click', async ()=>{
-        // toggle locally then reflect server state if available
         r.open = !r.open;
         render();
       });
@@ -155,10 +159,9 @@
       const closeBtn = el('button'); closeBtn.className='btn-ghost'; closeBtn.textContent='Close';
       closeBtn.addEventListener('click', async ()=>{
         if(!confirm('Close this resource?')) return;
-        // attempt API close; fallback to local close
         const ok = await closeResourceAPI(r.id);
         if(ok){
-          await reloadResources(); // refresh from server
+          await reloadResources();
         } else {
           r.closed = true;
           saveToLocal(resources);
@@ -167,7 +170,7 @@
       });
 
       actions.appendChild(respondBtn);
-      if(isMemberCheckbox.checked) actions.appendChild(closeBtn);
+      if(isMemberCheckbox && isMemberCheckbox.checked) actions.appendChild(closeBtn);
       actions.appendChild(arrow);
 
       bar.appendChild(meta); bar.appendChild(actions);
@@ -192,7 +195,6 @@
       const respList = el('div'); respList.style.width='100%';
       respList.innerHTML = '<strong>Responses</strong>';
       if(Array.isArray(r.responses) && r.responses.length){
-        // support both string-style responses (old localStorage) and object-style from server
         r.responses.forEach(m=>{
           const mdiv = el('div'); mdiv.className='muted'; mdiv.style.marginTop='6px';
           if (typeof m === 'string') {
@@ -219,12 +221,10 @@
       send.addEventListener('click', async ()=>{
         const text = ta.value.trim();
         if(!text) return alert('Please write a message');
-        // try API first
         const ok = await respondResourceAPI(r.id, text);
         if(ok){
           await reloadResources();
         } else {
-          // fallback: append locally (author unknown)
           r.responses = r.responses || [];
           r.responses.push({ author: 'You', content: text, createdAt: new Date().toISOString() });
           saveToLocal(resources);
@@ -248,59 +248,75 @@
 
   // ---------- form & controls ----------
   addMenuBtns.forEach(btn => btn.addEventListener('click', (ev)=>{
-    const kind = ev.currentTarget.dataset.kind; kindInput.value = kind; formArea.style.display='block'; formArea.setAttribute('aria-hidden','false');
-    document.querySelector('#sub').textContent = kind === 'offer' ? 'Offering — fill the details below' : 'Request — fill the details below';
-    resourceForm.reset(); tradeBox.style.display='none';
+    const kind = ev.currentTarget.dataset.kind; kindInput.value = kind;
+    if (formArea) {
+      formArea.style.display='block';
+      formArea.setAttribute('aria-hidden','false');
+    }
+    const sub = document.querySelector('#sub');
+    if (sub) sub.textContent = kind === 'offer' ? 'Offering — fill the details below' : 'Request — fill the details below';
+    if (resourceForm) resourceForm.reset();
+    if (tradeBox) tradeBox.style.display='none';
   }));
 
-  resourceForm.addEventListener('change',(e)=>{
-    const r = resourceForm.querySelector('input[name="fulfil"]:checked');
-    if(r && r.value === 'trade') tradeBox.style.display='block'; else tradeBox.style.display='none';
-  });
+  if (resourceForm) {
+    resourceForm.addEventListener('change', ()=>{
+      const r = resourceForm.querySelector('input[name="fulfil"]:checked');
+      if (tradeBox) tradeBox.style.display = (r && r.value === 'trade') ? 'block' : 'none';
+    });
+  }
 
-  document.getElementById('cancelForm').addEventListener('click',()=>{ formArea.style.display='none'; formArea.setAttribute('aria-hidden','true'); });
+  const cancelBtn = document.getElementById('cancelForm');
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', ()=>{
+      if (formArea) {
+        formArea.style.display='none';
+        formArea.setAttribute('aria-hidden','true');
+      }
+    });
+  }
 
-  document.getElementById('addResourceBtn').addEventListener('click', async ()=>{
-    const title = document.getElementById('title').value.trim();
-    const address = document.getElementById('address').value;
-    const type = document.getElementById('type').value;
-    const description = document.getElementById('description').value.trim();
-    const kind = document.getElementById('kind').value;
-    const fulfil = resourceForm.querySelector('input[name="fulfil"]:checked')?.value || 'free';
-    const tradeDesc = document.getElementById('tradeDesc').value.trim();
-    if(!title){ return alert('Please enter a resource name'); }
+  const addResBtn = document.getElementById('addResourceBtn');
+  if (addResBtn) {
+    addResBtn.addEventListener('click', async ()=>{
+      const title = document.getElementById('title')?.value.trim();
+      const address = document.getElementById('address')?.value;
+      const type = document.getElementById('type')?.value;
+      const description = document.getElementById('description')?.value.trim();
+      const kind = document.getElementById('kind')?.value;
+      const fulfil = resourceForm?.querySelector('input[name="fulfil"]:checked')?.value || 'free';
+      const tradeDesc = document.getElementById('tradeDesc')?.value.trim();
+      if(!title){ return alert('Please enter a resource name'); }
 
-    const payload = { title, address, type, description, kind, fulfil, tradeDesc };
+      const payload = { title, address, type, description, kind, fulfil, tradeDesc };
 
-    // disable button while creating
-    const addBtn = document.getElementById('addResourceBtn');
-    addBtn.disabled = true;
-    addBtn.textContent = 'Adding…';
+      addResBtn.disabled = true;
+      addResBtn.textContent = 'Adding…';
 
-    const created = await createResourceAPI(payload);
-    if(created){
-      // refresh full list from server (authoritative)
-      await reloadResources();
-    } else {
-      // fallback: add locally
-      const newR = { id: Date.now().toString(), ...payload, responses: [], closed:false, open:true, createdAt: new Date().toISOString(), createdBy: 'local' };
-      resources.unshift(newR);
-      saveToLocal(resources);
-      render();
-    }
+      const created = await createResourceAPI(payload);
+      if(created){
+        await reloadResources();
+      } else {
+        const newR = { id: Date.now().toString(), ...payload, responses: [], closed:false, open:true, createdAt: new Date().toISOString(), createdBy: 'local' };
+        resources.unshift(newR);
+        saveToLocal(resources);
+        render();
+      }
 
-    addBtn.disabled = false;
-    addBtn.textContent = 'Add resource';
-    formArea.style.display='none';
-  });
+      addResBtn.disabled = false;
+      addResBtn.textContent = 'Add resource';
+      if (formArea) formArea.style.display='none';
+    });
+  }
 
-  isMemberCheckbox.addEventListener('change', ()=> render());
+  if (isMemberCheckbox) {
+    isMemberCheckbox.addEventListener('change', ()=> render());
+  }
 
   // ---------- load / reload ----------
   async function reloadResources(){
     const apiList = await fetchResourcesAPI();
     if(Array.isArray(apiList)){
-      // ensure responses arrays and ids are normalized
       resources = apiList.map(r => Object.assign({
         id: String(r.id || r._id || Date.now()),
         title: r.title || '',
@@ -313,15 +329,14 @@
         responses: r.responses || [],
         closed: !!r.closed,
         open: !!r.open,
-        createdAt: r.createdAt || r.createdAt,
-        createdBy: r.createdBy || r.createdBy
+        createdAt: r.createdAt,
+        createdBy: r.createdBy
       }, r));
-      saveToLocal(resources); // keep local copy
+      saveToLocal(resources);
       render();
       return;
     }
 
-    // fallback to local if API failed
     resources = loadFromLocal();
     render();
   }
@@ -342,11 +357,10 @@
   }
 
   function goHome() {
-  window.location.href = '/home.html';
+    window.location.href = '/home.html';
   }
 
   function goBack() {
-    // Go back to the group page you came from
     window.history.back();
   }
 

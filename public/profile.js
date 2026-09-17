@@ -1,11 +1,12 @@
-// profile.js
+// profile.js - updated with live API endpoints for Capacitor/mobile compatibility
+const API_BASE = 'https://community-hub-j9na.onrender.com';
 
 window.addEventListener('DOMContentLoaded', init);
 
 async function init() {
   try {
     // Fetch your user data
-    const meRes = await fetch('/me', { credentials: 'include' });
+    const meRes = await fetch(`${API_BASE}/me`, { credentials: 'include' });
     if (!meRes.ok) throw new Error('Not logged in');
     const me = await meRes.json();
 
@@ -13,7 +14,7 @@ async function init() {
       `Welcome, ${me.name}`;
 
     // Fetch all groups (we'll filter)
-    const groupsRes = await fetch('/api/groups', { credentials: 'include' });
+    const groupsRes = await fetch(`${API_BASE}/api/groups`, { credentials: 'include' });
     const allGroups = groupsRes.ok ? await groupsRes.json() : [];
 
     // Separate created vs joined

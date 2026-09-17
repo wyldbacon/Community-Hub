@@ -1,4 +1,6 @@
-// public/group.js - robust, defensive version that won't leave page stuck on "Loading…"
+// public/group.js - updated with live API endpoints for Capacitor/mobile compatibility
+const API_BASE = 'https://community-hub-j9na.onrender.com';
+
 const raw = window.location.pathname.split('/').pop();
 const slug = raw.endsWith('.html') ? raw.slice(0, -5) : raw;
 
@@ -16,8 +18,12 @@ async function fetchJSON(url, opts = {}) {
     opts.body = JSON.stringify(opts.body);
     opts.headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
   }
+  
+  // Prefix relative endpoint paths with the backend base URL
+  const fullUrl = url.startsWith('http') ? url : `${API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;
+
   try {
-    const r = await fetch(url, opts);
+    const r = await fetch(fullUrl, opts);
     if (!r.ok) {
       const txt = await r.text().catch(() => r.statusText || 'error');
       const err = new Error(`HTTP ${r.status}: ${txt}`);
@@ -26,7 +32,7 @@ async function fetchJSON(url, opts = {}) {
     }
     return await r.json().catch(() => null);
   } catch (err) {
-    console.error('fetchJSON error for', url, err);
+    console.error('fetchJSON error for', fullUrl, err);
     throw err;
   }
 }
@@ -59,7 +65,6 @@ function showMainError(msg) {
   const body = $('resources-list-body');
   if (body) body.innerHTML = `<div class="muted">${escapeHtml(msg)}</div>`;
 }
-
 
 function renderReplies(container, replies) {
   container.innerHTML = '';
@@ -102,7 +107,7 @@ async function displayJoinRequestButton(group) {
   const sec = $('request-section');
   if (!sec) return;
 
-  // if no user, invite to log in (you can change behavior)
+  // if no user, invite to log in
   if (!currentUser) {
     sec.style.display = 'block';
     sec.innerHTML = `<p>Please <a href="/login.html">log in</a> to request to join this group.</p>`;
@@ -129,7 +134,7 @@ async function displayJoinRequestButton(group) {
   const btn = $('join-request-btn');
   btn.addEventListener('click', async () => {
     try {
-      const r = await fetch(`/api/group/${slug}/join-request`, {
+      const r = await fetch(`${API_BASE}/api/group/${slug}/join-request`, {
         method: 'POST',
         credentials: 'include'
       });
@@ -165,21 +170,20 @@ function displayApproveRequests(group) {
           ${escapeHtml(u)}
           <button data-user="${escapeHtml(u)}" class="approve-btn">Approve</button>
         </li>
-      `).join('')}
+      `).join('')}.
     </ul>
   `;
   sec.querySelectorAll('.approve-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       const emailTo = btn.getAttribute('data-user');
       try {
-        const r = await fetch(`/api/group/${slug}/approve`, {
+        const r = await fetch(`${API_BASE}/api/group/${slug}/approve`, {
           method: 'POST',
           credentials: 'include',
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify({ emailToApprove: emailTo })
         });
         if (r.ok) {
-          // remove the list item
           btn.parentElement.remove();
         } else {
           alert('Failed to approve: ' + await r.text());
@@ -192,20 +196,17 @@ function displayApproveRequests(group) {
   });
 }
 
-
 // ---------- Init ----------
 async function init() {
-  // set initial loading UI so user isn't stuck with old content
   setGroupHeaderLoading();
 
   try {
-    currentUser = await fetchCurrentUser(); // may be null
+    currentUser = await fetchCurrentUser();
   } catch (err) {
     console.warn('fetchCurrentUser failed', err);
     currentUser = null;
   }
 
-  // fetch group
   let group = null;
   try {
     group = await fetchGroupData();
@@ -227,14 +228,10 @@ async function init() {
   $('sidebar-group-name') && ($('sidebar-group-name').textContent = group.name);
   if (group.imageUrl && $('group-image')) $('group-image').src = group.imageUrl;
 
-  // --- Registry button integration (minimal) ---
-  // Show the "Resources" button in the sidebar and open the registry for this group.
   const registryBtn = $('open-registry-btn');
   if (registryBtn) {
-    // Reveal button now that group name exists
     registryBtn.style.display = 'block';
     registryBtn.textContent = 'Resources';
-    // Click behavior: navigate to resource_registry.html with group name encoded
     registryBtn.addEventListener('click', (ev) => {
       ev.preventDefault();
       const encoded = encodeURIComponent(group.name || slug);
@@ -245,12 +242,10 @@ async function init() {
   displayJoinRequestButton(group);
   displayApproveRequests(group);
 
-  // show posts if member
   if (group.isMember) {
     $('post-section') && ($('post-section').style.display = 'block');
     displayPosts(group.posts || []);
   } else {
-    // hide posting area but keep other info visible
     $('post-section') && ($('post-section').style.display = 'none');
   }
 }
@@ -264,7 +259,7 @@ $('post-form')?.addEventListener('submit', async e => {
   const content = $('post-content')?.value?.trim();
   if (!content) return;
   try {
-    const r = await fetch(`/api/group/${slug}/posts`, {
+    const r = await fetch(`${API_BASE}/api/group/${slug}/posts`, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
