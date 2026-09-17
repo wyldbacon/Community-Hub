@@ -71,6 +71,18 @@ function slugify(text) {
   return text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
 }
 
+app.set('trust proxy', 1);
+
+app.use(session({
+  secret: 'community-hub-secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    secure: true,     // Required for cross-origin HTTPS
+    sameSite: 'none'  // Allows cookies between Live Server/Capacitor & Render
+  }
+}));
+
 // — Session + body-parsing + static-serve
 app.use(session({
   secret: 'community-hub-secret',
