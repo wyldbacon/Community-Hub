@@ -183,7 +183,7 @@ window.addEventListener('DOMContentLoaded', () => {
       });
       if (res.ok) {
         const slug = slugify(data.groupName);
-        window.location.href = `/group/${slug}.html`;
+        window.location.href = `group.html?slug=${slug}`;
       } else {
         const msg = await res.text().catch(()=>res.statusText||'Error');
         alert('Error creating group: ' + msg);
@@ -210,7 +210,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const grp = allGroups.find(g=>g.slug===slug);
         if (!grp) return;
         const a = document.createElement('a');
-        a.href = `/group/${grp.slug}.html`;
+        a.href = `group.html?slug=${grp.slug}`;
         a.textContent = grp.name;
         a.className = 'group-link';
         list.insertBefore(a, newBtn);
@@ -287,7 +287,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const all = await fetch(`${API_BASE}/api/groups`,{credentials:'include'}).then(r=>r.json());
     results.innerHTML='';
     all.filter(g=>g.name.toLowerCase().includes(q)).forEach(g=>{
-      const d=document.createElement('div'); d.textContent=g.name; d.onclick=()=>window.location.href=`/group/${g.slug}.html`; results.appendChild(d);
+      const d=document.createElement('div'); d.textContent=g.name; d.onclick = () => window.location.href = `group.html?slug=${g.slug}`; results.appendChild(d);
     });
   };
   document.addEventListener('click', e=>{ if(!searchIn.contains(e.target) && !results.contains(e.target)) results.innerHTML=''; });

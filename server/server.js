@@ -172,13 +172,12 @@ app.post('/create-group', async (req, res) => {
     });
     await newGroup.save();
 
-    // Add to user's membership
     await User.updateOne(
       { email: req.session.user.email },
       { $addToSet: { groups: slug } }
     );
 
-    res.redirect(`/group/${slug}.html`);
+    res.status(201).json({ status: 'ok', slug });
   } catch (err) {
     res.status(500).send('Error creating group');
   }
