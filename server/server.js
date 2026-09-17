@@ -8,6 +8,7 @@ const mongoose   = require('mongoose');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
+const cors = require('cors');
 
 // ─── MONGOOSE CONNECTION ───────────────────────────────────────────────────────
 const MONGO_URI = 'mongodb+srv://merlinbacon101_db_user:TupWdKCxo369LDzT@cluster0.4hgjefk.mongodb.net/?appName=Cluster0';
@@ -79,6 +80,7 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors({ origin: '*', credentials: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // ─── AUTH ROUTES ───────────────────────────────────────────────────────────────
