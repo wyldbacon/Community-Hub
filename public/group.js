@@ -1,11 +1,21 @@
 // public/group.js - updated with live API endpoints for Capacitor/mobile compatibility
+// public/group.js - updated slug extraction
 const API_BASE = 'https://community-hub-j9na.onrender.com';
 
-const raw = window.location.pathname.split('/').pop();
-const slug = raw.endsWith('.html') ? raw.slice(0, -5) : raw;
+// Support both query parameters (group.html?slug=xyz) and clean paths (/group/xyz)
+const urlParams = new URLSearchParams(window.location.search);
+let slug = urlParams.get('slug');
+
+if (!slug) {
+  const raw = window.location.pathname.split('/').filter(Boolean).pop() || '';
+  slug = raw.endsWith('.html') ? raw.slice(0, -5) : raw;
+  if (slug === 'group') slug = ''; // prevent fallback to literal 'group'
+}
 
 let currentUser = null;
 let resourcesCache = [];
+
+
 
 // helpers
 const $ = id => document.getElementById(id);

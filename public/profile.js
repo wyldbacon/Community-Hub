@@ -62,7 +62,7 @@ async function init() {
 
   } catch (err) {
     console.error(err);
-    window.location.href = '/';
+    window.location.href = 'index.html';
   }
 }
 
@@ -74,7 +74,8 @@ function renderGroupLinks(list, container) {
   list.forEach(g => {
     const li = document.createElement('li');
     const a  = document.createElement('a');
-    a.href = `/group/${g.slug}.html`;
+    // FIXED: Point directly to group.html with the query parameter slug
+    a.href = `group.html?slug=${g.slug}`;
     a.textContent = g.name;
     li.appendChild(a);
     container.appendChild(li);
